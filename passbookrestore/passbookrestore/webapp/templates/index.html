@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PassbookRestore AI</title>
+<style>
+:root{--bg:#f4f1ea;--card:#ffffff;--ink:#1b1a16;--mute:#6a6558;--line:#e0dacb;--acc:#1f4d3a;--acc2:#2f7a5a;--onacc:#ffffff;--bad:#a32d2d;--good:#1f6b3f;--warn:#8a5a00;--shadow:0 1px 2px rgba(40,30,10,.06),0 8px 24px rgba(40,30,10,.06);color-scheme:light}
+:root[data-theme=dark]{--bg:#14130f;--card:#1d1b16;--ink:#ece7da;--mute:#a09a8a;--line:#35322a;--acc:#5fbf93;--acc2:#7fd1ab;--onacc:#0e1a14;--bad:#e07a7a;--good:#6fd08f;--warn:#e0b060;--shadow:none;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]):not([data-theme=dark]){--bg:#14130f;--card:#1d1b16;--ink:#ece7da;--mute:#a09a8a;--line:#35322a;--acc:#5fbf93;--acc2:#7fd1ab;--onacc:#0e1a14;--bad:#e07a7a;--good:#6fd08f;--warn:#e0b060;--shadow:none;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:28px 20px 8px;max-width:1180px;margin:auto;display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:14px;align-items:center}
+.logo{width:46px;height:46px;border-radius:12px;background:var(--acc);color:var(--onacc);display:grid;place-items:center;font:700 22px Georgia,serif}
+.theme{display:inline-flex;border:1px solid var(--line);border-radius:99px;padding:3px;background:var(--card)}
+.theme button{border:0;background:transparent;color:var(--mute);padding:6px 14px;border-radius:99px;font:600 13px system-ui;cursor:pointer}
+.theme button[aria-pressed=true]{background:var(--acc);color:var(--onacc)}
+input[type=range],input[type=checkbox]{accent-color:var(--acc)}
+#drop{background:var(--bg)}
+h1{font:600 28px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px;letter-spacing:-.01em}
+header p{margin:0;color:var(--mute);max-width:70ch}
+main{max-width:1180px;margin:auto;padding:16px 20px 60px;display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.card h2{font:600 13px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+#drop{border:2px dashed var(--line);border-radius:10px;padding:34px 16px;text-align:center;cursor:pointer;transition:.15s;color:var(--mute)}
+#drop.over,#drop:hover{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 6%,transparent)}
+#drop strong{color:var(--ink);display:block;font-size:16px;margin-bottom:4px}
+#picked{margin-top:10px;font-size:13px;color:var(--mute)}
+#preview{max-width:100%;max-height:150px;margin-top:10px;border:1px solid var(--line);border-radius:6px;display:none}
+label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
+select,input[type=range],textarea{width:100%}
+select,textarea{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit}
+textarea{min-height:64px;resize:vertical;font:13px ui-monospace,Consolas,monospace}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.chk{display:flex;gap:8px;align-items:center;margin:10px 0 0;color:var(--ink);font-size:14px}
+button.primary{background:var(--acc);color:var(--onacc);border:0;border-radius:8px;padding:12px 20px;font:600 15px system-ui;cursor:pointer;width:100%;margin-top:16px}
+button.primary:disabled{opacity:.5;cursor:wait}
+.btn{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:8px 14px;color:var(--ink);text-decoration:none;font-size:14px;background:var(--bg)}
+.btn:hover{border-color:var(--acc)}
+.or{text-align:center;color:var(--mute);font-size:12px;margin:14px 0 2px}
+#err{color:var(--bad);margin-top:10px;font-size:14px;display:none}
+#status{font-size:12px;color:var(--mute);margin-top:12px}
+#results{display:none}
+.cmp{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#fff;user-select:none;touch-action:none}
+.cmp img{display:block;width:100%;height:auto;pointer-events:none}
+.cmp .top{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}
+.cmp .bar{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--acc);cursor:ew-resize;transform:translateX(-1.5px)}
+.cmp .bar::after{content:"\2194";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--acc);color:var(--onacc);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px}
+.tag{position:absolute;top:8px;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:600;background:rgba(0,0,0,.65);color:#fff}
+.tag.l{left:8px}.tag.r{right:8px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.kpi .n{font:600 24px/1.1 Georgia,serif}.kpi .l{font-size:12px;color:var(--mute);margin-top:4px}.kpi .d{font-size:12px;margin-top:2px}
+.good{color:var(--good)}.bad{color:var(--bad)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:12px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.txt{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.txt{grid-template-columns:1fr}}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font:12.5px/1.5 ui-monospace,Consolas,monospace;max-height:340px;overflow:auto}
+.sub{font-size:13px;color:var(--mute);margin:0 0 6px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .7s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+.note{font-size:12.5px;color:var(--mute);margin-top:8px}
+.pill{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--mute)}
+.pill.ok{color:var(--good);border-color:var(--good)}.pill.no{color:var(--warn);border-color:var(--warn)}
+</style>
+<script>(function(){var t='light';try{var v=localStorage.getItem('pr-theme');if(v==='dark')t=v}catch(e){}document.documentElement.dataset.theme=t})()</script>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true">P</div>
+    <div>
+      <h1>PassbookRestore AI</h1>
+      <p>Restore faded, noisy or low-contrast scans of passbooks, cheques and KYC forms, then see whether OCR improves and whether the layout survived.</p>
+    </div>
+  </div>
+  <div class="theme" role="group" aria-label="Colour theme">
+    <button data-t="light" aria-pressed="true">Light</button>
+    <button data-t="dark" aria-pressed="false">Dark</button>
+  </div>
+</header>
+<main>
+  <section class="card grid2">
+    <div>
+      <h2>1 &middot; Choose a scan</h2>
+      <div id="drop" tabindex="0">
+        <strong>Drop a scan here or click to browse</strong>
+        PNG, JPG, TIFF or BMP, up to {{ max_mb }} MB
+        <input id="file" type="file" accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,image/*" hidden>
+      </div>
+      <div id="picked"></div>
+      <img id="preview" alt="">
+      <div class="or">or try a bundled sample</div>
+      <select id="sample"><option value="">Loading samples&hellip;</option></select>
+      <label for="truth">Ground-truth text (optional, enables error-rate scoring)</label>
+      <textarea id="truth" placeholder="Paste the true text of the document to measure character error rate"></textarea>
+    </div>
+    <div>
+      <h2>2 &middot; Settings</h2>
+      <label for="upscaler">Upscaler</label>
+      <select id="upscaler">
+        <option value="auto">Auto (Real-ESRGAN if available, else OpenCV)</option>
+        <option value="realesrgan">Real-ESRGAN only</option>
+        <option value="opencv">OpenCV Lanczos</option>
+      </select>
+      <div class="row">
+        <div><label for="scale">Output scale</label>
+          <select id="scale"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option></select></div>
+        <div><label for="denoise">Denoise <span id="dv">8</span></label><input id="denoise" type="range" min="0" max="20" step="1" value="8"></div>
+        <div><label for="sharpen">Sharpen <span id="sv">0.8</span></label><input id="sharpen" type="range" min="0" max="2" step="0.1" value="0.8"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="normalize" checked> Remove stains and uneven lighting</label>
+      <label class="chk"><input type="checkbox" id="deskew" checked> Straighten tilted scans</label>
+      <button class="primary" id="go">Restore document</button>
+      <div id="err"></div>
+      <div id="status"></div>
+    </div>
+  </section>
+
+  <section id="results" class="card">
+    <h2>3 &middot; Result</h2>
+    <div class="row" style="margin-bottom:12px">
+      <span class="pill" id="pill-up"></span><span class="pill" id="pill-time"></span><span class="pill" id="pill-skew"></span>
+      <span style="flex:3"></span>
+      <a class="btn" id="dl-img">Download restored</a>
+      <a class="btn" id="dl-cmp">Before/after sheet</a>
+      <a class="btn" id="dl-txt">OCR text</a>
+    </div>
+    <div class="cmp" id="cmp">
+      <img id="img-after" alt="Restored scan">
+      <div class="top"><img id="img-before" alt="Original scan"></div>
+      <span class="tag l">Before</span><span class="tag r">After</span>
+      <div class="bar" id="bar"></div>
+    </div>
+    <p class="note">Drag the handle to compare the original scan with the restored one.</p>
+
+    <h2 style="margin-top:22px">OCR readiness</h2>
+    <div class="kpis" id="kpis"></div>
+    <div class="txt">
+      <div><p class="sub">Tesseract on the raw scan</p><pre id="t-base"></pre></div>
+      <div><p class="sub">Tesseract on the restored scan</p><pre id="t-rest"></pre></div>
+    </div>
+
+    <h2 style="margin-top:22px">Image quality and structure</h2>
+    <table id="qtable"></table>
+    <p class="note" id="struct-note"></p>
+  </section>
+  <section id="history" class="card">
+    <h2>Run history <span class="pill" id="db-pill" style="margin-left:8px"></span></h2>
+    <div id="hist-body" class="note">Loading&hellip;</div>
+  </section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+function applyTheme(t){
+  t=t==='dark'?'dark':'light';
+  document.documentElement.dataset.theme=t;
+  document.querySelectorAll('.theme button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t));
+  try{localStorage.setItem('pr-theme',t)}catch(e){}
+}
+document.querySelectorAll('.theme button').forEach(b=>b.onclick=()=>applyTheme(b.dataset.t));
+(function(){let t='light';try{t=localStorage.getItem('pr-theme')||'light'}catch(e){}applyTheme(t)})();
+let file=null;
+
+fetch('/api/status').then(r=>r.json()).then(s=>{
+  const bits=[];
+  bits.push(s.tesseract?`Tesseract ${s.tesseract} ready`:'Tesseract NOT found: install it and add it to PATH');
+  bits.push(s.realesrgan_available?'Real-ESRGAN ready':'Real-ESRGAN not installed (OpenCV upscaler will be used)');
+  bits.push(s.mongodb?'MongoDB connected':'MongoDB not connected (history off)');
+  $('status').textContent=bits.join(' · ');
+});
+fetch('/api/samples').then(r=>r.json()).then(list=>{
+  const sel=$('sample');
+  sel.innerHTML='<option value="">None</option>'+list.map(s=>`<option value="${s.name}">${s.name}${s.has_truth?'':' (no truth)'}</option>`).join('');
+});
+
+const drop=$('drop'),inp=$('file');
+drop.onclick=()=>inp.click();
+drop.onkeydown=e=>{if(e.key==='Enter')inp.click()};
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>setFile(e.dataTransfer.files[0]));
+inp.onchange=()=>setFile(inp.files[0]);
+function setFile(f){
+  if(!f)return; file=f; $('sample').value='';
+  $('picked').textContent=`${f.name} (${(f.size/1024).toFixed(0)} KB)`;
+  const p=$('preview'); p.src=URL.createObjectURL(f); p.style.display='block';
+}
+$('sample').onchange=()=>{
+  const n=$('sample').value;
+  if(n){file=null;$('picked').textContent='Sample: '+n;const p=$('preview');p.src='/api/sample-image/'+encodeURIComponent(n);p.style.display='block';}
+};
+$('denoise').oninput=e=>$('dv').textContent=e.target.value;
+$('sharpen').oninput=e=>$('sv').textContent=e.target.value;
+
+$('go').onclick=async()=>{
+  const err=$('err'); err.style.display='none';
+  const sample=$('sample').value;
+  if(!file&&!sample){err.textContent='Choose a scan or a sample first.';err.style.display='block';return}
+  const fd=new FormData();
+  if(sample)fd.append('sample',sample);else{fd.append('file',file);fd.append('truth',$('truth').value)}
+  fd.append('upscaler',$('upscaler').value);fd.append('scale',$('scale').value);
+  fd.append('denoise',$('denoise').value);fd.append('sharpen',$('sharpen').value);
+  fd.append('normalize',$('normalize').checked);fd.append('deskew',$('deskew').checked);
+  const b=$('go'); b.disabled=true; b.innerHTML='<span class="spin"></span>Restoring…';
+  try{
+    const r=await fetch('/api/restore',{method:'POST',body:fd});
+    const j=await r.json();
+    if(!r.ok)throw new Error(j.error||'Request failed');
+    show(j); loadHistory();
+  }catch(e){err.textContent=e.message;err.style.display='block'}
+  finally{b.disabled=false;b.textContent='Restore document'}
+};
+
+function pct(x){return (x*100).toFixed(1)+'%'}
+function show(j){
+  $('results').style.display='block';
+  $('img-before').src=j.before;$('img-after').src=j.after;
+  $('pill-up').textContent='Upscaler: '+j.upscaler;
+  $('pill-up').className='pill '+(j.upscaler.startsWith('real')?'ok':'no');
+  $('pill-time').textContent=j.seconds+' s';
+  $('pill-skew').textContent='Skew corrected: '+j.skew_deg+'°';
+  ['dl-img','dl-cmp','dl-txt'].forEach((id,i)=>{
+    const a=$(id); a.style.display=j.id?'':'none';
+    if(j.id)a.href=`/api/download/${j.id}/${['restored','comparison','text'][i]}`;
+  });
+  const m=j.metrics,k=$('kpis'); k.innerHTML='';
+  const add=(n,l,d,cls)=>k.insertAdjacentHTML('beforeend',`<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div><div class="d ${cls||''}">${d||''}</div></div>`);
+  if(j.has_truth){
+    const imp=m.baseline_cer-m.restored_cer;
+    add(m.restored_cer.toFixed(3),'Character error rate (restored)',`raw scan: ${m.baseline_cer.toFixed(3)} · ${imp>=0?'improved':'worse'}`,imp>=0?'good':'bad');
+    const wi=m.restored_word_acc-m.baseline_word_acc;
+    add(pct(m.restored_word_acc),'Word accuracy (restored)',`raw scan: ${pct(m.baseline_word_acc)}`,wi>=0?'good':'bad');
+  }
+  const ci=m.restored_conf-m.baseline_conf;
+  add(m.restored_conf.toFixed(1),'OCR confidence (restored)',`raw scan: ${m.baseline_conf.toFixed(1)}`,ci>=0?'good':'bad');
+  add(m.restored_words,'Words found (restored)',`raw scan: ${m.baseline_words}`);
+  add(m.struct_structure_score.toFixed(3),'Structure score',m.structure_reference==='clean'?'vs clean reference':'vs original scan');
+  if(!j.has_truth){k.insertAdjacentHTML('beforeend','<div class="kpi"><div class="l">Paste ground-truth text before restoring to get error-rate scores.</div></div>')}
+  $('t-base').textContent=j.baseline_text||'(no text found)';
+  $('t-rest').textContent=j.restored_text||'(no text found)';
+  const rows=[['Resolution',`${m.orig_width}×${m.orig_height}`,`${m.rest_width}×${m.rest_height}`],
+    ['Sharpness (higher is better)',m.orig_sharpness,m.rest_sharpness],
+    ['Contrast (higher is better)',m.orig_contrast,m.rest_contrast],
+    ['Background unevenness (lower is better)',m.orig_background_std,m.rest_background_std],
+    ['Noise (lower is better)',m.orig_noise_sigma,m.rest_noise_sigma]];
+  if(m.baseline_ssim!==undefined)rows.push(['SSIM vs clean (higher is better)',m.baseline_ssim,m.restored_ssim]);
+  if(m.baseline_struct_score!==undefined)rows.push(['Structure score vs clean',m.baseline_struct_score,m.struct_structure_score]);
+  $('qtable').innerHTML='<tr><th>Metric</th><th class="num">Original</th><th class="num">Restored</th></tr>'+
+    rows.map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
+  $('struct-note').textContent=`Layout check: ${m.struct_h_rules} horizontal and ${m.struct_v_rules} vertical ruled lines, ${m.struct_text_rows} text rows (reference: ${m.struct_h_rules_ref} / ${m.struct_v_rules_ref} / ${m.struct_text_rows_ref}). Ink overlap ${m.struct_ink_overlap}.`;
+  setSplit(50);
+  $('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// run history (MongoDB)
+async function loadHistory(){
+  const body=$('hist-body');
+  try{
+    const h=await (await fetch('/api/history')).json();
+    const pill=$('db-pill'); pill.textContent=h.enabled?'MongoDB':'off'; pill.className='pill '+(h.enabled?'ok':'no');
+    if(!h.enabled){body.textContent='MongoDB is not connected, so runs are not being saved. Start MongoDB (default mongodb://localhost:27017) or set MONGODB_URI, then restart the app.';return}
+    if(!h.runs.length){body.textContent='No saved runs yet. Restore a document and it will appear here.';return}
+    const f=x=>x===undefined||x===null?'\u2013':x;
+    body.innerHTML='<table><tr><th>When</th><th>File</th><th>Upscaler</th><th class="num">CER raw</th><th class="num">CER restored</th><th class="num">Structure</th><th></th></tr>'+
+      h.runs.map(r=>`<tr><td>${new Date(r.created_at).toLocaleString()}</td><td></td><td>${r.upscaler}</td>
+      <td class="num">${f(r.metrics.baseline_cer)}</td><td class="num">${f(r.metrics.restored_cer)}</td><td class="num">${f(r.metrics.struct_structure_score)}</td>
+      <td class="num"><a href="#" data-v="${r._id}">View</a> &middot; <a href="#" data-d="${r._id}">Delete</a></td></tr>`).join('')+'</table>';
+    body.querySelectorAll('tr').forEach((tr,i)=>{ if(i>0) tr.children[1].textContent=h.runs[i-1].filename });
+    body.querySelectorAll('[data-v]').forEach(a=>a.onclick=async e=>{e.preventDefault();show(await (await fetch('/api/history/'+a.dataset.v)).json())});
+    body.querySelectorAll('[data-d]').forEach(a=>a.onclick=async e=>{e.preventDefault();await fetch('/api/history/'+a.dataset.d,{method:'DELETE'});loadHistory()});
+  }catch(e){body.textContent='Could not load history.'}
+}
+loadHistory();
+
+// before/after slider
+const cmp=$('cmp'),bar=$('bar'),top_=cmp.querySelector('.top');
+function setSplit(p){p=Math.max(0,Math.min(100,p));top_.style.clipPath=`inset(0 ${100-p}% 0 0)`;bar.style.left=p+'%'}
+let dragging=false;
+const move=e=>{if(!dragging)return;const r=cmp.getBoundingClientRect();setSplit((e.clientX-r.left)/r.width*100)};
+cmp.addEventListener('pointerdown',e=>{dragging=true;move(e)});
+window.addEventListener('pointermove',move);
+window.addEventListener('pointerup',()=>dragging=false);
+</script>
+</body>
+</html>

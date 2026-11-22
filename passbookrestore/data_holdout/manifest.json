@@ -1,0 +1,202 @@
+[
+  {
+    "name": "passbook_01",
+    "type": "passbook",
+    "severity": 0.2,
+    "seed": 1000,
+    "table_rows": 12,
+    "h_lines": 14,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_02",
+    "type": "passbook",
+    "severity": 0.29,
+    "seed": 1001,
+    "table_rows": 9,
+    "h_lines": 11,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_03",
+    "type": "passbook",
+    "severity": 0.37,
+    "seed": 1002,
+    "table_rows": 13,
+    "h_lines": 15,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_04",
+    "type": "passbook",
+    "severity": 0.46,
+    "seed": 1003,
+    "table_rows": 12,
+    "h_lines": 14,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_05",
+    "type": "passbook",
+    "severity": 0.54,
+    "seed": 1004,
+    "table_rows": 12,
+    "h_lines": 14,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_06",
+    "type": "passbook",
+    "severity": 0.63,
+    "seed": 1005,
+    "table_rows": 12,
+    "h_lines": 14,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_07",
+    "type": "passbook",
+    "severity": 0.71,
+    "seed": 1006,
+    "table_rows": 11,
+    "h_lines": 13,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_08",
+    "type": "passbook",
+    "severity": 0.8,
+    "seed": 1007,
+    "table_rows": 9,
+    "h_lines": 11,
+    "v_lines": 6
+  },
+  {
+    "name": "cheque_01",
+    "type": "cheque",
+    "severity": 0.2,
+    "seed": 1008,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_02",
+    "type": "cheque",
+    "severity": 0.29,
+    "seed": 1009,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_03",
+    "type": "cheque",
+    "severity": 0.37,
+    "seed": 1010,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_04",
+    "type": "cheque",
+    "severity": 0.46,
+    "seed": 1011,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_05",
+    "type": "cheque",
+    "severity": 0.54,
+    "seed": 1012,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_06",
+    "type": "cheque",
+    "severity": 0.63,
+    "seed": 1013,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_07",
+    "type": "cheque",
+    "severity": 0.71,
+    "seed": 1014,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_08",
+    "type": "cheque",
+    "severity": 0.8,
+    "seed": 1015,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "kyc_01",
+    "type": "kyc",
+    "severity": 0.2,
+    "seed": 1016,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_02",
+    "type": "kyc",
+    "severity": 0.29,
+    "seed": 1017,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_03",
+    "type": "kyc",
+    "severity": 0.37,
+    "seed": 1018,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_04",
+    "type": "kyc",
+    "severity": 0.46,
+    "seed": 1019,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_05",
+    "type": "kyc",
+    "severity": 0.54,
+    "seed": 1020,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_06",
+    "type": "kyc",
+    "severity": 0.63,
+    "seed": 1021,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_07",
+    "type": "kyc",
+    "severity": 0.71,
+    "seed": 1022,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_08",
+    "type": "kyc",
+    "severity": 0.8,
+    "seed": 1023,
+    "fields": 7,
+    "boxes": 7
+  }
+]

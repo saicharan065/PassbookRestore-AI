@@ -1,0 +1,152 @@
+[
+  {
+    "name": "passbook_01",
+    "type": "passbook",
+    "severity": 0.2,
+    "seed": 42,
+    "table_rows": 14,
+    "h_lines": 16,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_02",
+    "type": "passbook",
+    "severity": 0.32,
+    "seed": 43,
+    "table_rows": 9,
+    "h_lines": 11,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_03",
+    "type": "passbook",
+    "severity": 0.44,
+    "seed": 44,
+    "table_rows": 12,
+    "h_lines": 14,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_04",
+    "type": "passbook",
+    "severity": 0.56,
+    "seed": 45,
+    "table_rows": 11,
+    "h_lines": 13,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_05",
+    "type": "passbook",
+    "severity": 0.68,
+    "seed": 46,
+    "table_rows": 9,
+    "h_lines": 11,
+    "v_lines": 6
+  },
+  {
+    "name": "passbook_06",
+    "type": "passbook",
+    "severity": 0.8,
+    "seed": 47,
+    "table_rows": 11,
+    "h_lines": 13,
+    "v_lines": 6
+  },
+  {
+    "name": "cheque_01",
+    "type": "cheque",
+    "severity": 0.2,
+    "seed": 48,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_02",
+    "type": "cheque",
+    "severity": 0.32,
+    "seed": 49,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_03",
+    "type": "cheque",
+    "severity": 0.44,
+    "seed": 50,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_04",
+    "type": "cheque",
+    "severity": 0.56,
+    "seed": 51,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_05",
+    "type": "cheque",
+    "severity": 0.68,
+    "seed": 52,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "cheque_06",
+    "type": "cheque",
+    "severity": 0.8,
+    "seed": 53,
+    "h_lines": 3,
+    "boxes": 2
+  },
+  {
+    "name": "kyc_01",
+    "type": "kyc",
+    "severity": 0.2,
+    "seed": 54,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_02",
+    "type": "kyc",
+    "severity": 0.32,
+    "seed": 55,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_03",
+    "type": "kyc",
+    "severity": 0.44,
+    "seed": 56,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_04",
+    "type": "kyc",
+    "severity": 0.56,
+    "seed": 57,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_05",
+    "type": "kyc",
+    "severity": 0.68,
+    "seed": 58,
+    "fields": 7,
+    "boxes": 7
+  },
+  {
+    "name": "kyc_06",
+    "type": "kyc",
+    "severity": 0.8,
+    "seed": 59,
+    "fields": 7,
+    "boxes": 7
+  }
+]

@@ -1,0 +1,9 @@
+STATE UNION BANK KYC FORM
+Name MEENA GUPTA
+Date of Birth 20/01/1995
+Father Name VENKAT NAIR
+Address 62-38 MG Road Kolkata
+Mobile 9602895661
+PAN XVYSU4929C
+Account No 26829682965
+Signature of Applicant

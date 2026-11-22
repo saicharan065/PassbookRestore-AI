@@ -1,0 +1,78 @@
+{
+  "n_documents": 24,
+  "means": {
+    "baseline_cer": 0.7926,
+    "restored_cer": 0.2428,
+    "baseline_word_acc": 0.301,
+    "restored_word_acc": 0.598,
+    "baseline_conf": 48.8875,
+    "restored_conf": 65.5,
+    "orig_sharpness": 240.1725,
+    "rest_sharpness": 266.5513,
+    "orig_contrast": 70.9167,
+    "rest_contrast": 158.1667,
+    "orig_background_std": 3.5596,
+    "rest_background_std": 2.3696,
+    "orig_noise_sigma": 1.955,
+    "rest_noise_sigma": 0.5913,
+    "baseline_ssim": 0.6169,
+    "restored_ssim": 0.7715,
+    "baseline_struct_score": 0.8307,
+    "struct_structure_score": 0.966,
+    "seconds": 1.4863
+  },
+  "by_type": {
+    "cheque": {
+      "n": 8,
+      "baseline_cer": 0.5022,
+      "restored_cer": 0.2492,
+      "baseline_word_acc": 0.525,
+      "restored_word_acc": 0.575,
+      "struct_structure_score": 0.9597
+    },
+    "kyc": {
+      "n": 8,
+      "baseline_cer": 1.0495,
+      "restored_cer": 0.1958,
+      "baseline_word_acc": 0.2742,
+      "restored_word_acc": 0.7379,
+      "struct_structure_score": 0.9805
+    },
+    "passbook": {
+      "n": 8,
+      "baseline_cer": 0.826,
+      "restored_cer": 0.2833,
+      "baseline_word_acc": 0.1037,
+      "restored_word_acc": 0.4811,
+      "struct_structure_score": 0.9576
+    }
+  },
+  "docs_improved": 24,
+  "docs_with_truth": 24,
+  "failures": [],
+  "config": {
+    "scale": 2.0,
+    "upscaler": "opencv",
+    "weights_path": "/home/claude/passbookrestore/models/RealESRGAN_x4plus.pth",
+    "tile": 256,
+    "max_input_side": 1400,
+    "normalize_background": true,
+    "background_kernel": 41,
+    "median_ksize": 3,
+    "denoise_strength": 8.0,
+    "clahe_clip": 0.0,
+    "clahe_grid": 8,
+    "deskew": true,
+    "max_deskew_deg": 7.0,
+    "sharpen_amount": 0.8,
+    "sharpen_sigma": 1.2,
+    "stretch_percentiles": [
+      1.0,
+      99.0
+    ],
+    "ocr_lang": "eng",
+    "ocr_psm": 4,
+    "ocr_target_height": 1600,
+    "ocr_remove_rules": true
+  }
+}
